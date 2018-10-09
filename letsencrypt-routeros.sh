@@ -49,7 +49,7 @@ if [ ! -f $CERTIFICATE ] && [ ! -f $KEY ]; then
 fi
 
 # Remove previous certificate
-$routeros /certificate remove [find name=$DOMAIN.pem_0]
+$routeros /certificate remove [find name=$DOMAIN.pem]
 
 # Create Certificate
 # Delete Certificate file if the file exist on RouterOS
@@ -73,7 +73,9 @@ $routeros /certificate import file-name=$DOMAIN.key passphrase=\"\"
 # Delete Certificate file after import
 $routeros /file remove $DOMAIN.key
 
+# Edit name of Certificate
+$routeros /certificate set [find common-name=$DOMAIN] name=$DOMAIN
 # Setup Certificate to SSTP Server
-$routeros /interface sstp-server server set certificate=$DOMAIN.pem_0
+$routeros /interface sstp-server server set certificate=$DOMAIN
 
 exit 0
